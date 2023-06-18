@@ -1,0 +1,100 @@
+
+<div class="container-fluid" style="background-color: #f1f5f9">
+    <a (click)="showAddBox()">
+        <i class="fa fa-plus-square fs-5 mt-2"></i>
+    </a>
+    <div class="row flex-nowrap">
+      <div class="container-fluid" style="width: 82vw">
+        <div class="search">
+            <input type="text" [(ngModel)]="term" placeholder="Search by Name" class="w-50 mb-4 m-auto form-control bg-transparent ">
+          </div>
+        <div class="pageBox mt-4 ">
+            <table class="text-center">
+                <thead class="mb-3">
+                    <th>Name</th>
+                    <th>Image</th>
+                    <th>Quentity</th>
+                    <th>Price</th>
+                    <th>Action</th>
+                </thead>
+                <div class="py-2"></div>
+                <tbody>
+                    <tr  *ngFor="let product of products|search:term | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage } ">
+
+                        <td >{{product.p_name}}</td>
+                        <td>
+                            <img style="width:100px;height:100px;" [src]="product.p_image" alt="userImage">
+                        </td> 
+                        <td>{{product.p_quantity}}</td> 
+                        <td>{{product.price}}</td>
+                        <td>
+                            <a (click)="showUpdateBox(product.p_id)">
+                                <i class="fa-solid fa-pen me-3 mt-4"></i>
+                            </a>
+                            <a (click)="deleteProduct(product.p_id)">
+                                <i class="fa-regular fa-trash-can mt-4"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+                <div class="text-center paginationNav mt-2">
+                    <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
+                </div>
+             </table>
+
+        </div>
+      </div>
+
+
+    </div>
+</div>
+
+<div class="layer position-absolute position-relative px-5 py-3 rounded text-center" id="layer">
+    <a (click)="closeAddBox()" class="position-absolute close">
+        <i class="fa fa-close fs-5"></i>
+    </a>
+    <h3 class="mt-4">Add product</h3>
+    <form  enctype="multipart/form-data"  [formGroup]="addProductForm" (ngSubmit)="addProduct()" class="py-4">
+        <div class="form-group mb-4">
+            <input type="text" class="form-control my-2 bg-transparent"  placeholder="Enter product Name" formControlName="name">
+        </div>
+        <div class="form-group mb-4">
+            <input type="text" class="form-control my-2 bg-transparent" placeholder="Enter price" formControlName="price">
+        </div>
+        <div class="form-group mb-4">
+            <input type="number" class="form-control my-2 bg-transparent" placeholder="Enter quantity " formControlName="quantity">
+        </div>
+        <div class="form-group mb-4">
+            <input type="file" class="form-control my-2 bg-transparent" (change)="addphoto($event)" placeholder="Enter product Image">
+        </div>
+        <button   type="submit" class="btn">Add product</button>
+    </form>
+</div>
+
+
+<div class="updatelayer position-absolute position-relative px-5 py-3 rounded text-center" id="updatelayer">
+    <a (click)="closeUpdateBox()" class="position-absolute close">
+        <i class="fa fa-close fs-5"></i>
+    </a>
+    <h3 class="mt-4">Update product</h3>
+    <form  enctype="multipart/form-data" [formGroup]="updateProductForm" (ngSubmit)="updateProduct()" class="py-4">
+        <div class="form-group mb-4">
+            <input type="text" class="form-control my-2 bg-transparent" placeholder="Enter product Name" formControlName="name">
+        </div>
+        <div class="form-group mb-4">
+            <input type="text" class="form-control my-2 bg-transparent" placeholder="Enter price" formControlName="price">
+        </div>
+        <div class="form-group mb-4">
+            <input type="number" class="form-control my-2 bg-transparent" placeholder="Enter quantity" formControlName="quantity">
+        </div>
+        <div class="form-group mb-4">
+            <input type="number" class="form-control my-2 bg-transparent" placeholder="Enter product_id" formControlName="product_id">
+        </div>
+        <div class="form-group mb-4">
+            <input type="file" class="form-control my-2 bg-transparent" (change)="addphoto($event)" placeholder="Enter product Image">
+        </div>
+        <button   type="submit" class="btn">Update product</button>
+    </form>
+</div>
+
+
